@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:file="http://www.mulesoft.org/schema/mule/file" xmlns:http="http://www.mulesoft.org/schema/mule/http"
+	xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/file http://www.mulesoft.org/schema/mule/file/current/mule-file.xsd">
+	<http:listener-config name="HTTP_Listener_config" doc:name="HTTP Listener config" doc:id="6dd57712-1785-4be0-8014-380a3eccd64e" >
+		<http:listener-connection host="0.0.0.0" port="8082" />
+	</http:listener-config>
+	<http:listener-config name="HTTP_Listener_config1" doc:name="HTTP Listener config" doc:id="d9994bf9-15f4-4b7b-8fa4-eb5e36897b2f" >
+		<http:listener-connection host="localhost" port="8081"/>
+	</http:listener-config>
+	<file:config name="File_Config" doc:name="File Config" doc:id="00a83a11-ca0b-4e22-bcb2-c553fb3f265e" />
+	<file:config name="File_Config1" doc:name="File Config" doc:id="a60caf73-19df-479c-8ee2-0d7a7b90106c" />
+	<file:config name="File_Config2" doc:name="File Config" doc:id="92aec07b-7c30-463e-b786-f53af38f0ec1" />
+	<flow name="fileconnectorFlow" doc:id="a50b1b2f-7291-44cf-9371-a42ff8060c52" >
+		<http:listener doc:name="Listener" doc:id="c571a1d4-6444-4095-aa58-d340785e69f0" config-ref="HTTP_Listener_config" path="/fileconnector"/>
+		<file:read doc:name="Read" doc:id="8fe30884-10d2-482c-88e2-618385a9a0e7" config-ref="File_Config1" path="C:\Users\HP\Desktop\file\file connector.txt"/>
+		<logger level="INFO" doc:name="Logger" doc:id="da307f3b-d520-48f9-9b41-0824e537eb21" message="#[payload]"/>
+		<file:write doc:name="Write" doc:id="abede5a9-30de-4a79-bf3f-3adba060d968" config-ref="File_Config" path="C:\Users\HP\Desktop\file\file write connector.txt">
+			<file:content ><![CDATA[welcome to write operations in file connector]]></file:content>
+		</file:write>
+	</flow>
+</mule>
