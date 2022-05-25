@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:db="http://www.mulesoft.org/schema/mule/db" xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core"
+	xmlns:http="http://www.mulesoft.org/schema/mule/http"
+	xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd
+http://www.mulesoft.org/schema/mule/db http://www.mulesoft.org/schema/mule/db/current/mule-db.xsd">
+	<http:listener-config name="HTTP_Listener_config" doc:name="HTTP Listener config" doc:id="d349e787-c063-4b22-ad2a-05de5fe01e78" >
+		<http:listener-connection host="localhost" port="8081" />
+	</http:listener-config>
+	<db:config name="Database_Config" doc:name="Database Config" doc:id="d14561a5-ecf0-4408-be84-1419687fa1ec" >
+		<db:my-sql-connection host="localhost" port="3306" user="root" password="kreshnna1234.RAJH" database="mydb" />
+	</db:config>
+	<flow name="sqloperationsFlow" doc:id="6e7a3f87-271f-417d-baff-99765d797730" >
+		<http:listener doc:name="Listener" doc:id="71b91045-07a7-4fc7-ae81-a38a12939f35" config-ref="HTTP_Listener_config" path="sql"/>
+		<ee:transform doc:name="Transform Message" doc:id="c6a04727-b0a3-4b82-8b6e-08147f1bd74a" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+1 to 100 map 
+{
+ id: 200 + $$,
+ name: "rajh",
+ number: 1234567890,
+ lastname: "kreshnna"
+}]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+		<foreach doc:name="For Each" doc:id="149541e3-f5ff-40fc-a028-7e77b6ce9144" >
+			<db:insert doc:name="Insert" doc:id="4c551700-a459-4f0e-8e75-2606d584a1e8" config-ref="Database_Config">
+			<db:sql><![CDATA[insert into mydb.emp(id, name, number, lname) values (:id, :name, :number, :lname):]]></db:sql>
+			<db:input-parameters><![CDATA[#[payload]]]></db:input-parameters>
+		</db:insert>
+			<logger level="INFO" doc:name="Logger" doc:id="97c60516-ddff-4b9b-bc81-bc2ad360307f" message="payload"/>
+		</foreach>
+	</flow>
+</mule>
