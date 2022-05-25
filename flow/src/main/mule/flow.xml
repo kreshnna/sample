@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns:file="http://www.mulesoft.org/schema/mule/file"
+	xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/file http://www.mulesoft.org/schema/mule/file/current/mule-file.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd">
+	<file:config name="File_Config" doc:name="File Config" doc:id="a9d2bb75-7e36-4263-be57-35cbf47bd2a7" />
+	<http:listener-config name="HTTP_Listener_config_1" doc:name="HTTP Listener config" doc:id="66d2310b-dc43-4cd7-b469-22ed5c54cf4b" >
+		<http:listener-connection host="localhost" port="8083" />
+	</http:listener-config>
+	<http:listener-config name="HTTP_Listener_config" doc:name="HTTP Listener config" doc:id="eda9ac8e-4b1d-4d66-b2e6-da22c584322e" >
+		<http:listener-connection host="localhost" port="8081" />
+	</http:listener-config>
+	<file:config name="File_Config1" doc:name="File Config" doc:id="e91f4a62-4833-405f-b370-4fb2d2c87a54" />
+	<flow name="flowFlow" doc:id="7ea12f55-5eb6-4eb1-948b-9f2d3e2cb9a5" >
+		<file:listener doc:name="On New or Updated File" doc:id="74e7827c-c935-481b-94da-8c8c77017d65" config-ref="File_Config" directory="C:\Users\HP\Desktop\file" autoDelete="true" moveToDirectory="C:\Users\HP\Desktop\TRAINING MULE SOFT 2022">
+			<scheduling-strategy >
+				<fixed-frequency frequency="1" timeUnit="MINUTES"/>
+			</scheduling-strategy>
+		</file:listener>
+		<logger level="INFO" doc:name="Logger" doc:id="39d6c9fd-c464-4c64-b27b-336b3a4fd901" message="payload"/>
+	</flow>
+</mule>
