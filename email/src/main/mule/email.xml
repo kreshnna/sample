@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:email="http://www.mulesoft.org/schema/mule/email" xmlns:http="http://www.mulesoft.org/schema/mule/http"
+	xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/email http://www.mulesoft.org/schema/mule/email/current/mule-email.xsd">
+	<http:listener-config name="HTTP_Listener_config" doc:name="HTTP Listener config" doc:id="442cae64-ebb0-437b-ad97-0a4df5a72430" >
+		<http:listener-connection host="0.0.0.0" port="8081" />
+	</http:listener-config>
+	<email:smtp-config name="Email_SMTP" doc:name="Email SMTP" doc:id="6cccb252-c981-4766-98b3-760947bf76af" >
+		<email:smtp-connection host="smtp.gmail.com" port="587" user="rajrickyraj143@gmail.com" password="chuchukondaraju" >
+			<email:properties >
+				<email:property key="mail.smtp.starttls.enable" value="true" />
+			</email:properties>
+		</email:smtp-connection>
+	</email:smtp-config>
+	<flow name="emailFlow" doc:id="61402e26-7fbf-40e2-8915-a25764012b57" >
+		<http:listener doc:name="Listener" doc:id="d68f8e4f-4366-404d-aa02-031ddc7b9294" config-ref="HTTP_Listener_config" path="email"/>
+		<logger level="INFO" doc:name="Logger" doc:id="12d4fabb-947e-4d39-959a-3c897acff4f0" message="welcome to mail"/>
+		<email:send doc:name="Send" doc:id="033a41e8-3f14-4dd0-80d5-5301d462b144" config-ref="Email_SMTP" fromAddress="rajrickyraj143@gmail.com" subject="mail from mule soft">
+			<email:to-addresses >
+				<email:to-address value="raju.chusukonda@gmail.com" />
+			</email:to-addresses>
+			<email:cc-addresses >
+			</email:cc-addresses>
+			<email:body >
+				<email:content ><![CDATA[hey welcome to SMTP]]></email:content>
+			</email:body>
+		</email:send>
+	</flow>
+</mule>
