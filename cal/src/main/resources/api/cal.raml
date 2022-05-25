@@ -1,0 +1,58 @@
+#%RAML 1.0
+title: cal
+version: v1
+protocols:
+  - HTTP
+  - HTTPS
+
+/add:
+  get:
+    queryParameters:
+      number1:
+        required: true
+        type: integer
+      number2:
+        required: true
+        type: integer
+    responses:
+      200:
+        body:
+          application/json:
+            example:
+              {
+                "result" : "addtion is 50"
+              }
+      500:
+        body:
+          application/json:
+             example:
+                {
+                  "result": "bad request"
+                }
+/sub:
+  post:
+    queryParameters:
+      number1:
+        required: true
+        type: integer
+      number2:
+        required: true
+        type: integer
+    responses:
+      200:
+        body:
+          application/json:
+            example:
+              {
+                "result" : "substraction is 10"
+              }
+      500:
+        body:
+          application/json:
+            example:
+              {
+                "result": "bad request"
+              }
+              
+      
+          
