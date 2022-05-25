@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd">
+	<http:listener-config name="HTTP_Listener_config" doc:name="HTTP Listener config" doc:id="4d3f9c36-ec12-4257-8659-03d8d2054713" >
+		<http:listener-connection host="localhost" port="8081" />
+	</http:listener-config>
+	<flow name="sampleFlow" doc:id="e2930ff0-f2d3-4eaf-8f90-4d4f99e5f920" >
+		<http:listener doc:name="Listener" doc:id="f73e3aa7-48f8-4325-991f-abde372e2ade" path="/sample" config-ref="HTTP_Listener_config"/>
+		<logger level="INFO" doc:name="Logger" doc:id="7c69c4a5-5b24-46d1-ab5a-4d40d44eeb01" message="it is just a sample project"/>
+	</flow>
+</mule>
