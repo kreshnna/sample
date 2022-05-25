@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns:db="http://www.mulesoft.org/schema/mule/db"
+	xmlns:http="http://www.mulesoft.org/schema/mule/http"
+	xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/db http://www.mulesoft.org/schema/mule/db/current/mule-db.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
+	<http:listener-config name="HTTP_Listener_config" doc:name="HTTP Listener config" doc:id="2b019e13-12ff-4872-b8ac-234a8c09bd0c" >
+		<http:listener-connection host="localhost" port="8081" />
+	</http:listener-config>
+	<db:config name="Database_Config" doc:name="Database Config" doc:id="0470c2f4-bd0f-4300-bd24-69ef468b6f26" >
+		<db:my-sql-connection host="localhost" port="3306" user="root" password="kreshnna1234.RAJH" database="mydb" />
+	</db:config>
+	<flow name="errorhandlingFlow" doc:id="35ffa750-a28d-42f9-b1c5-df28519d9860" >
+		<http:listener doc:name="Listener" doc:id="e9fcce75-3eb6-446e-a7e3-4dc202a9d95b" config-ref="HTTP_Listener_config" path="errorhandling">
+			<http:response >
+				<http:body ><![CDATA[#[output application/json --- payload]]]></http:body>
+			</http:response>
+		</http:listener>
+		<logger level="INFO" doc:name="Logger" doc:id="040903b5-0cd1-4d91-a580-181a783b7928"/>
+		<try doc:name="Try" doc:id="2c207997-6daf-4fbd-be03-853f97d518ce" >
+			<db:insert doc:name="Insert" doc:id="7e6d8ca2-82a4-4e24-bbce-b67a3afae17a" config-ref="Database_Config">
+			<db:sql><![CDATA[select]]></db:sql>
+		</db:insert>
+			<error-handler >
+				<on-error-propagate enableNotifications="true" logException="true" doc:name="On Error Propagate" doc:id="91d3cd8d-0b70-4267-8609-2c45c2ae17a4" type="ANY">
+					<ee:transform doc:name="Transform Message" doc:id="603f43d6-a146-470e-a4a8-1d0bf35adf9f" >
+						<ee:message >
+							<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+{
+	"message" :"please check the internet connection"
+}]]></ee:set-payload>
+						</ee:message>
+					</ee:transform>
+				</on-error-propagate>
+			</error-handler>
+		</try>
+		<ee:transform doc:name="Transform Message" doc:id="6e574360-0c0e-4dec-81da-e8eea5500c7d" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+payload]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+		<logger level="INFO" doc:name="Logger" doc:id="a6f8fec8-f71d-40a5-a2ec-745f46ec9388" message="#[payload]"/>
+	</flow>
+</mule>
