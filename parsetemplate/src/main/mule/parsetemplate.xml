@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd">
+	<http:listener-config name="HTTP_Listener_config" doc:name="HTTP Listener config" doc:id="9433786d-2667-4acd-bf72-9e3f9bff34e4" >
+		<http:listener-connection host="localhost" port="8085" />
+	</http:listener-config>
+	<flow name="parsetemplateFlow" doc:id="c9238dd7-8016-4cde-816a-aa193be0304c" >
+		<http:listener doc:name="Listener" doc:id="db4ecb28-2a6c-4589-81a0-fa662b18f169" config-ref="HTTP_Listener_config" path="template"/>
+		<parse-template doc:name="Parse Template" doc:id="f85a825f-f8d8-4330-ae93-baa77b12aed6" location="C:\Users\HP\Desktop\e mail\template.txt"/>
+	</flow>
+</mule>
