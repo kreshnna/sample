@@ -1,0 +1,77 @@
+#%RAML 1.0
+title: Calculator-api
+version: v1
+protocols: [http,https]
+traits:
+  que: !include /traits/trait.raml
+/addition:
+  get:
+    is:
+      - que
+    responses:
+      200:
+        body:
+          application/json:
+            example: !include examples/get-response.json   
+/subtraction:
+  patch:
+    is:
+      - que
+    responses:
+      200:
+        body:
+          application/json:
+            example: !include examples/substraction.json
+/multiplication:
+  patch:
+    is: [que]
+    responses:
+      200:
+        body:
+          application/json:
+            example: !include examples/multiply.json    
+/divison:
+  post:
+    is: [que]
+    responses:
+      200:
+        body:
+          application/json:
+            example: !include examples/divison.json           
+/add:
+  get:
+    is: [que]
+    responses:
+      200:
+        body:
+          application/json:
+            example: !include examples/add.json             
+/sub:
+  put:
+    is: [que]
+    responses:
+      200:
+        body:
+          application/json:
+            example: !include examples/sub.json            
+/div:
+  delete:
+    is: [que]
+    responses:
+      200:
+        body:
+          application/json:
+            example: !include examples/div.json           
+      
+              
+              
+          
+                                           
+          
+          
+
+
+              
+                                  
+                                                                                                        
+              
